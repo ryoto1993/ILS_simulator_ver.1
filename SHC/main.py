@@ -1,7 +1,11 @@
 # coding: utf-8
 
-from SHC import Light
+from SHC.light import Light
 
 print("知的照明システムシミュレーター ver.0.1")
 
-light1 = Light()
+lightList = []
+
+for var in range(0, 97):
+    lightList.append(Light())
+
