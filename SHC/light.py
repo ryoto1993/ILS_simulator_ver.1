@@ -11,7 +11,7 @@ class Light:
         self.lumMIN = 200  # 最小光度
 
     def __str__(self):
-        return str(self.ID)
+        return "Light" + str(self.ID)
 
     def setluminocity(self, lumMAX, lumMIN):
         self.lumMAX = lumMAX
