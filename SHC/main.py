@@ -13,3 +13,7 @@ for var in range(0, 15):
 
 for var in range(0, 97):
     sensorList.append(Sensor())
+
+sensorList[10].setTargetIlluminance(300)
+sensorList[56].setTargetIlluminance(500)
+sensorList[87].setTargetIlluminance(700)
