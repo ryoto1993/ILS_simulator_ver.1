@@ -38,19 +38,15 @@ for s in sensorList:
     s.reflect(lightList)
 
 # ここから1ステップ分の処理を書く
-for i in range(0, 8000):
+for i in range(0, 4000):
     before_f = calc_objective_function(lightList, sensorList, weight)
-    #print("before " + str(before_f))
     before_light_list = copy.deepcopy(lightList)
     change_luminosity_random(lightList)
     update_sensor(lightList, sensorList)
     after_f = calc_objective_function(lightList, sensorList, weight)
-    #print("after  " + str(after_f))
     if before_f < after_f:
         lightList = copy.deepcopy(before_light_list)
         update_sensor(lightList, sensorList)
-    #print(calc_objective_function(lightList, sensorList, weight))
-    #print("")
 
     csvList.clear()
     csvList.append(i)
