@@ -1,5 +1,7 @@
 # coding: UTF-8
 
+import random
+
 
 def calc_power(light_list):
     power = 0
@@ -18,6 +20,16 @@ def calc_objective_function(light_list, sensor_list, weight):
     return calc_power(light_list) + weight * light_weight
 
 
+def change_luminosity_random(light_list):
+    for l in light_list:
+        l.set_random_luminosity()
+
+
+def update_sensor(light_list, sensor_list):
+    for s in sensor_list:
+        s.reflect(light_list)
+
+
 class Light:
     ID = 0
 
@@ -27,7 +39,7 @@ class Light:
         self.name = ""
         self.lum_MAX = 1000  # 最大光度
         self.lum_MIN = 200   # 最小光度
-        self.lum_cur = 1000   # 現在光度
+        self.lum_cur = 200   # 現在光度
 
     def __str__(self):
         return "Light" + str(self.ID)
@@ -38,6 +50,16 @@ class Light:
 
     def get_luminosity(self):
         return self.lum_cur
+
+    def set_luminosity(self, lum):
+        self.lum_cur = lum
+
+    def set_random_luminosity(self):
+        rnd = random.randint(0, 1)
+        if(rnd==0):
+            self.lum_cur += 20
+        else:
+            self.lum_cur -= 20
 
 
 class Sensor:
@@ -65,9 +87,11 @@ class Sensor:
         else:
             return (self.ill_cur - self.ill_tar) ** 2
 
+    def get_illuminance(self):
+        return self.ill_cur
+
     def reflect(self, light_list):
         ill_tmp = 0
         for index, l in enumerate(light_list):
             ill_tmp += l.get_luminosity() * float(self.influence[index+1])
         self.ill_cur = ill_tmp
-        print("sensor" + str(self.ID) + " " + str(self.ill_cur) + " lx")
