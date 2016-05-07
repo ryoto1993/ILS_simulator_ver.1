@@ -1,8 +1,9 @@
 # coding: utf-8
 
-from SHC.equipment import *
-import csv
 import copy
+import csv
+
+from equipment import *
 
 print("知的照明システムシミュレーター ver.0.1")
 
