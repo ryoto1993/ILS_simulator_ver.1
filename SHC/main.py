@@ -24,6 +24,9 @@ sensorList[10].set_target_illuminance(300)
 sensorList[56].set_target_illuminance(500)
 sensorList[87].set_target_illuminance(700)
 
+for s in sensorList:
+    s.reflect(lightList)
+
 print(calc_objective_function(lightList, sensorList, 15))
 
 f.close()
