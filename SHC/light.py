@@ -1,5 +1,6 @@
 # coding: UTF-8
 
+
 class Light:
     ID = 0
 
@@ -13,6 +14,6 @@ class Light:
     def __str__(self):
         return "Light" + str(self.ID)
 
-    def setluminocity(self, lumMAX, lumMIN):
-        self.lumMAX = lumMAX
-        self.lumMIN = lumMIN
+    def set_luminosity(self, lum_max, lum_min):
+        self.lumMAX = lum_max
+        self.lumMIN = lum_min
