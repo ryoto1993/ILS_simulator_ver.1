@@ -15,7 +15,6 @@ reader = csv.reader(f)
 header = next(reader)
 csvWriter = csv.writer(save_csv)
 
-
 # 照明とセンサの準備
 for var in range(0, 15):
     lightList.append(Light())
@@ -25,7 +24,7 @@ for var in range(0, 97):
     sensorList[var].set_influence(next(reader))
 
 # csvの作成
-csvList = ["Step", "Sensor10", "Sensor56", "Sensor87"]
+csvList = ["Step", "Power", "Sensor10", "Sensor56", "Sensor87"]
 for l in lightList:
     csvList.append(l)
 csvWriter.writerow(csvList)
@@ -39,20 +38,30 @@ for s in sensorList:
     s.reflect(lightList)
 
 # ここから1ステップ分の処理を書く
-for i in range(0, 1000):
+for i in range(0, 8000):
     before_f = calc_objective_function(lightList, sensorList, weight)
+    #print("before " + str(before_f))
     before_light_list = copy.deepcopy(lightList)
     change_luminosity_random(lightList)
     update_sensor(lightList, sensorList)
     after_f = calc_objective_function(lightList, sensorList, weight)
+    #print("after  " + str(after_f))
     if before_f < after_f:
         lightList = copy.deepcopy(before_light_list)
+        update_sensor(lightList, sensorList)
+    #print(calc_objective_function(lightList, sensorList, weight))
+    #print("")
 
     csvList.clear()
     csvList.append(i)
+    csvList.append(calc_power(lightList))
     csvList.append(str(int(sensorList[10].get_illuminance())))
     csvList.append(str(int(sensorList[56].get_illuminance())))
     csvList.append(str(int(sensorList[87].get_illuminance())))
+
+    for l in lightList:
+        csvList.append(str(int(l.get_luminosity())))
+
     csvWriter.writerow(csvList)
 
 f.close()

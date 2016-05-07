@@ -55,11 +55,11 @@ class Light:
         self.lum_cur = lum
 
     def set_random_luminosity(self):
-        rnd = random.randint(0, 1)
-        if(rnd==0):
-            self.lum_cur += 20
-        else:
-            self.lum_cur -= 20
+        self.lum_cur *= random.uniform(0.92, 1.06)
+        if self.lum_cur < self.lum_MIN:
+            self.lum_cur = self.lum_MIN
+        if self.lum_cur > self.lum_MAX:
+            self.lum_cur = self.lum_MAX
 
 
 class Sensor:
