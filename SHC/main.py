@@ -6,6 +6,7 @@ import csv
 from equipment import *
 
 print("知的照明システムシミュレーター ver.0.1")
+print("最適化アルゴリズム：SCH")
 
 lightList = []
 sensorList = []
