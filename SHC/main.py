@@ -45,10 +45,6 @@ for i in range(0, 4000):
     before_light_list = copy.deepcopy(lightList)
     change_luminosity_random(lightList)
     update_sensor(lightList, sensorList)
-    after_f = calc_objective_function(lightList, sensorList, weight)
-    if before_f < after_f:
-        lightList = copy.deepcopy(before_light_list)
-        update_sensor(lightList, sensorList)
 
     csvList.clear()
     csvList.append(i)
@@ -56,11 +52,24 @@ for i in range(0, 4000):
     csvList.append(str(int(sensorList[10].get_illuminance())))
     csvList.append(str(int(sensorList[56].get_illuminance())))
     csvList.append(str(int(sensorList[87].get_illuminance())))
-
     for l in lightList:
         csvList.append(str(int(l.get_luminosity())))
-
     csvWriter.writerow(csvList)
+
+    after_f = calc_objective_function(lightList, sensorList, weight)
+    if before_f < after_f:
+        lightList = copy.deepcopy(before_light_list)
+        update_sensor(lightList, sensorList)
+
+        csvList.clear()
+        csvList.append(i)
+        csvList.append(calc_power(lightList))
+        csvList.append(str(int(sensorList[10].get_illuminance())))
+        csvList.append(str(int(sensorList[56].get_illuminance())))
+        csvList.append(str(int(sensorList[87].get_illuminance())))
+        for l in lightList:
+            csvList.append(str(int(l.get_luminosity())))
+        csvWriter.writerow(csvList)
 
 f.close()
 save_csv.close()
