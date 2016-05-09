@@ -1,9 +1,8 @@
 # coding: utf-8
 
 import csv
-import copy
 
-from equipment import *
+from ANA_RC.equipment import *
 
 print("知的照明システムシミュレーター ver.0.2")
 print("最適化アルゴリズム：ANA/RC")
@@ -38,3 +37,24 @@ sensorList[87].set_target_illuminance(700)
 for s in sensorList:
     s.reflect(lightList)
 
+# ここから1ステップ毎の処理を記述
+for i in range(0, 4000):
+    # 移動検知した場合回帰係数リセット
+    print("移動検知")
+
+    # 目的関数値計算
+
+    # 近傍計算
+
+    # 光度をランダムに計算
+
+    # 回帰係数計算
+
+    # 目的関数値計算
+
+    # ロールバック
+
+
+# ファイルクローズ
+f.close()
+save_csv.close()
