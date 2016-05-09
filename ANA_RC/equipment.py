@@ -81,12 +81,6 @@ class Sensor:
     def set_influence(self, influence):
         self.influence = influence
 
-    def get_g(self):
-        if self.ill_cur - self.ill_tar >= 0:
-            return 0
-        else:
-            return (self.ill_cur - self.ill_tar) ** 2
-
     def get_illuminance(self):
         return self.ill_cur
 
