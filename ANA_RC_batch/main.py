@@ -2,20 +2,21 @@
 
 import csv
 
-from ANA_RC.equipment import *
+from ANA_RC_batch.equipment import *
 
 print("知的照明システムシミュレーター ver.0.2")
 print("最適化アルゴリズム：ANA/RC")
 
 lightList = []
 sensorList = []
+useSensorList = []
 f = open('../influenceKC111FL.csv', 'r')
-save_csv = open('../data/log.csv', 'w')
+save_csv = open('../data/ANA_RC/log.csv', 'w')
 reader = csv.reader(f)
 header = next(reader)
 csvWriter = csv.writer(save_csv)
 
-# 照明とセンサの準備
+# 装置の準備
 for var in range(0, 15):
     lightList.append(Light())
 
@@ -23,28 +24,44 @@ for var in range(0, 97):
     sensorList.append(Sensor())
     sensorList[var].set_influence(next(reader))
 
+powerMeter = PowerMeter()
+powerMeter.set_light_list(lightList)
+
+# 使用するセンサを設定
+sensorList[10].set_target_illuminance(300)
+sensorList[56].set_target_illuminance(500)
+sensorList[87].set_target_illuminance(700)
+
+useSensorList.append(sensorList[10])
+useSensorList.append(sensorList[56])
+useSensorList.append(sensorList[87])
+
+# 照明にセンサ情報と電力計を渡す
+for l in lightList:
+    l.set_sensor_list(useSensorList)
+
 # csvの作成
 csvList = ["Step", "Power", "Sensor10", "Sensor56", "Sensor87"]
 for l in lightList:
     csvList.append(l)
 csvWriter.writerow(csvList)
 
-# センサに目標照度値を設定
-sensorList[10].set_target_illuminance(300)
-sensorList[56].set_target_illuminance(500)
-sensorList[87].set_target_illuminance(700)
-
-for s in sensorList:
+# センサの更新
+for s in useSensorList:
     s.reflect(lightList)
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
+    print("a")
     # 移動検知した場合回帰係数リセット
-    print("移動検知")
+
+    # 移動検知
 
     # 目的関数値計算
 
-    # 近傍計算
+    # 各センサのランク付け
+
+    # 近傍設計の選択
 
     # 光度をランダムに計算
 

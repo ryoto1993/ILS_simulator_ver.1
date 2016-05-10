@@ -3,29 +3,7 @@
 import random
 
 
-def calc_power(light_list):
-    power = 0
-
-    for l in light_list:
-        power += l.get_luminosity()
-    return power
-
-
-def calc_objective_function(light_list, sensor_list, weight):
-    light_weight = 0
-
-    for s in sensor_list:
-        light_weight += s.get_g()
-
-    return calc_power(light_list) + weight * light_weight
-
-
-def change_luminosity_random(light_list):
-    for l in light_list:
-        l.set_random_luminosity()
-
-
-def update_sensor(light_list, sensor_list):
+def update_sensors(light_list, sensor_list):
     for s in sensor_list:
         s.reflect(light_list)
 
@@ -41,12 +19,13 @@ class Light:
         self.lum_MIN = 200   # 最小光度
         self.lum_cur = 200   # 現在光度
 
+        self.lum_history = []   # 光度値履歴
+        self.sensor_history = []
+        self.sensor_list = []   # センサリスト
+        self.power_meter = PowerMeter
+
     def __str__(self):
         return "Light" + str(self.ID)
-
-    def set_luminosity_range(self, lum_max, lum_min):
-        self.lum_MAX = lum_max
-        self.lum_MIN = lum_min
 
     def get_luminosity(self):
         return self.lum_cur
@@ -61,6 +40,14 @@ class Light:
         if self.lum_cur > self.lum_MAX:
             self.lum_cur = self.lum_MAX
 
+    def set_sensor_list(self, sensor_list):
+        self.sensor_list = sensor_list
+        for i in range(0, len(sensor_list)):
+            self.sensor_history.append([])
+
+    def set_power_meter(self, power_meter):
+        self.power_meter = power_meter
+
 
 class Sensor:
     ID = 0
@@ -73,7 +60,7 @@ class Sensor:
         self.influence = []  # influence
 
     def __str__(self):
-        return "Sensor" + set(self.ID)
+        return "Sensor" + str(self.ID)
 
     def set_target_illuminance(self, target):
         self.ill_tar = target
@@ -89,3 +76,26 @@ class Sensor:
         for index, l in enumerate(light_list):
             ill_tmp += l.get_luminosity() * float(self.influence[index+1])
         self.ill_cur = ill_tmp
+
+
+class PowerMeter:
+    ID = 0
+
+    def __init__(self):
+        self.ID = PowerMeter.ID
+        PowerMeter.ID += 1
+        self.current_power = 0
+        self.light_list = []
+
+    def __str__(self):
+        return "Power Meter " + str(self.ID)
+
+    def get_power(self):
+        power = 0
+
+        for l in self.light_list:
+            power += l.get_luminosity()
+        return power
+
+    def set_light_list(self, light_list):
+        self.light_list = light_list
