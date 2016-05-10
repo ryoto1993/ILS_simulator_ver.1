@@ -13,7 +13,7 @@ sensorList = []
 useSensorList = []
 weight = 15
 f = open('../influenceKC111FL.csv', 'r')
-save_csv = open('../data/log.csv', 'w')
+save_csv = open('../data/SHC/log.csv', 'w')
 reader = csv.reader(f)
 header = next(reader)
 csvWriter = csv.writer(save_csv)
@@ -45,7 +45,7 @@ for s in sensorList:
     s.reflect(lightList)
 
 # ここから1ステップ分の処理を書く
-for i in range(0, 4000):
+for i in range(0, 2000):
     before_f = calc_objective_function(lightList, useSensorList, weight)
     before_light_list = copy.deepcopy(lightList)
     change_luminosity_random(lightList)
