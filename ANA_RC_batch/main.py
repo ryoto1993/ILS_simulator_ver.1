@@ -31,7 +31,6 @@ powerMeter.set_light_list(lightList)
 sensorList[10].set_target_illuminance(300)
 sensorList[56].set_target_illuminance(500)
 sensorList[87].set_target_illuminance(700)
-
 useSensorList.append(sensorList[10])
 useSensorList.append(sensorList[56])
 useSensorList.append(sensorList[87])
@@ -47,15 +46,30 @@ for l in lightList:
 csvWriter.writerow(csvList)
 
 # センサの更新
-for s in useSensorList:
-    s.reflect(lightList)
+update_sensors(lightList, useSensorList)
+
+# テスト
+for l in lightList:
+    l.append_history()
+    l.set_random_luminosity()
+
+update_sensors(lightList, useSensorList)
+
+for l in lightList:
+    l.append_history()
+    l.set_random_luminosity()
+
+update_sensors(lightList, useSensorList)
+
+for l in lightList:
+    l.append_history()
+    print(l)
+    l.calc_rc()
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
-    print("a")
+    pass
     # 移動検知した場合回帰係数リセット
-
-    # 移動検知
 
     # 目的関数値計算
 
