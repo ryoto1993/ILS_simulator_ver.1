@@ -10,6 +10,7 @@ print("最適化アルゴリズム：SCH")
 
 lightList = []
 sensorList = []
+useSensorList = []
 weight = 15
 f = open('../influenceKC111FL.csv', 'r')
 save_csv = open('../data/log.csv', 'w')
@@ -24,6 +25,10 @@ for var in range(0, 15):
 for var in range(0, 97):
     sensorList.append(Sensor())
     sensorList[var].set_influence(next(reader))
+
+useSensorList.append(sensorList[10])
+useSensorList.append(sensorList[56])
+useSensorList.append(sensorList[87])
 
 # csvの作成
 csvList = ["Step", "Power", "Sensor10", "Sensor56", "Sensor87"]
@@ -41,10 +46,10 @@ for s in sensorList:
 
 # ここから1ステップ分の処理を書く
 for i in range(0, 4000):
-    before_f = calc_objective_function(lightList, sensorList, weight)
+    before_f = calc_objective_function(lightList, useSensorList, weight)
     before_light_list = copy.deepcopy(lightList)
     change_luminosity_random(lightList)
-    update_sensor(lightList, sensorList)
+    update_sensor(lightList, useSensorList)
 
     csvList.clear()
     csvList.append(i)
@@ -56,7 +61,7 @@ for i in range(0, 4000):
         csvList.append(str(int(l.get_luminosity())))
     csvWriter.writerow(csvList)
 
-    after_f = calc_objective_function(lightList, sensorList, weight)
+    after_f = calc_objective_function(lightList, useSensorList, weight)
     if before_f < after_f:
         lightList = copy.deepcopy(before_light_list)
         update_sensor(lightList, sensorList)
