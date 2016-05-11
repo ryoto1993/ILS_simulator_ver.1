@@ -63,12 +63,12 @@ class Light:
         efunc = 0
 
         for index, s in enumerate(self.sensor_list):
-            if 0.06 * s.get_illuminance() <= s.get_illuminance() -s.get_target() < s.get_illuminance() - s.get_target():
+            if 0.06 * (s.get_illuminance() <= s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target() < 0):
                 if self.sensor_rc[index] >= 0.02:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target())**2
 
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
-        # print(self.objective_cur)
+        print(efunc)
 
     def calc_next_objective(self):
         efunc = 0
@@ -109,6 +109,9 @@ class Light:
         self.lum_bef = self.lum_cur
         self.lum_cur = next_lum
 
+        # print(self.lum_cur)
+        # print(self.lum_bef)
+
     def append_history(self):
         self.lum_history.pop(0)
         self.lum_history.append(self.lum_cur - self.lum_bef)
@@ -120,6 +123,8 @@ class Light:
         self.lum_cur = self.lum_bef
 
     def is_rollback(self):
+        print(self.objective_cur)
+        print(self.objective_next)
         if self.objective_cur < self.objective_next:
             return True
         else:
@@ -294,7 +299,7 @@ class Neighbor:
                 # node3
                 if inf_sensor_list[0].get_illuminance() > inf_sensor_list[0].get_target():
                     # node5
-                    if inf_sensor_list[0].get_illuminance() > 1.06 * inf_sensor_list[0].get_target:
+                    if inf_sensor_list[0].get_illuminance() > 1.06 * inf_sensor_list[0].get_target():
                         self.neighbor_design = 3
                         self.set_neighbor_type(inf_sensor_rank_list)
                     else:
@@ -307,7 +312,7 @@ class Neighbor:
                         self.set_neighbor_type(inf_sensor_rank_list)
                     else:
                     # node7
-                        if 0.92 * inf_sensor_list[0].get_target() < inf_sensor_list[0].get_illuminance() < 0.98 * inf_sensor_list[0].get_target:
+                        if 0.92 * inf_sensor_list[0].get_target() < inf_sensor_list[0].get_illuminance() < 0.98 * inf_sensor_list[0].get_target():
                             self.neighbor_design = 5
                             self.set_neighbor_type(inf_sensor_rank_list)
                         else:

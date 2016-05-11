@@ -68,6 +68,17 @@ for i in range(0, 50):
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 1000):
+    # CSV出力
+    csvList.clear()
+    csvList.append(i)
+    csvList.append(powerMeter.get_power())
+    csvList.append(str(int(sensorList[10].get_illuminance())))
+    csvList.append(str(int(sensorList[56].get_illuminance())))
+    csvList.append(str(int(sensorList[87].get_illuminance())))
+    for l in lightList:
+        csvList.append(str(int(l.get_luminosity())))
+    csvWriter.writerow(csvList)
+
     # 回帰係数計算
     for l in lightList:
         l.calc_rc()
@@ -83,6 +94,18 @@ for i in range(0, 1000):
     update_sensors(lightList, useSensorList)
     for l in lightList:
         l.append_history()
+
+    # CSV
+    csvList.clear()
+    csvList.append(i)
+    csvList.append(powerMeter.get_power())
+    csvList.append(str(int(sensorList[10].get_illuminance())))
+    csvList.append(str(int(sensorList[56].get_illuminance())))
+    csvList.append(str(int(sensorList[87].get_illuminance())))
+    for l in lightList:
+        csvList.append(str(int(l.get_luminosity())))
+    csvWriter.writerow(csvList)
+
     # 変動後回帰係数計算
     for l in lightList:
         l.calc_rc()
@@ -94,7 +117,7 @@ for i in range(0, 1000):
         if l.is_rollback():
             l.rollback()
     update_sensors(lightList, useSensorList)
-    print(i)
+
 
 # ファイルクローズ
 f.close()
