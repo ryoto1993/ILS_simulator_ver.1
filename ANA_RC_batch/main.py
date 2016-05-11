@@ -35,9 +35,11 @@ useSensorList.append(sensorList[10])
 useSensorList.append(sensorList[56])
 useSensorList.append(sensorList[87])
 
-# 照明にセンサ情報と電力計を渡す
+# 使用する照明を設定
 for l in lightList:
     l.set_sensor_list(useSensorList)
+    l.set_power_meter(powerMeter)
+    l.set_weight(15)
 
 # csvの作成
 csvList = ["Step", "Power", "Sensor10", "Sensor56", "Sensor87"]
@@ -51,20 +53,23 @@ update_sensors(lightList, useSensorList)
 # テスト
 for l in lightList:
     l.append_history()
+for l in lightList:
     l.set_random_luminosity()
 
 update_sensors(lightList, useSensorList)
 
 for l in lightList:
     l.append_history()
+for l in lightList:
     l.set_random_luminosity()
 
 update_sensors(lightList, useSensorList)
 
 for l in lightList:
     l.append_history()
-    print(l)
+    #print(l)
     l.calc_rc()
+    l.calc_current_objective()
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
