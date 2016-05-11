@@ -70,6 +70,16 @@ class Light:
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
         # print(self.objective_cur)
 
+    def calc_next_objective(self):
+        efunc = 0
+
+        for index, s in enumerate(self.sensor_list):
+            if 0.06 * s.get_illuminance() <= s.get_illuminance() - s.get_target() < s.get_illuminance() - s.get_target():
+                if self.sensor_rc[index] >= 0.02:
+                    efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target()) ** 2
+
+        self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
+
     def calc_rc(self):
         for index in range(len(self.sensor_list)):
             a, b = calc_regression_coefficient(self.lum_history, self.sensor_history[index])
@@ -86,6 +96,34 @@ class Light:
 
     def decide_neighbor(self):
         self.neighbor.set_neighbor_design(self.sensor_list, self.sensor_rank)
+
+    def set_random_luminosity(self):
+        next_lum = self.lum_cur
+
+        next_lum += (self.lum_MAX - self.lum_MIN) * random.randint(self.neighbor.get_lower(), self.neighbor.get_upper()) / 100
+        if next_lum < self.lum_MIN:
+            next_lum = self.lum_MIN
+        if next_lum > self.lum_MAX:
+            next_lum = self.lum_MAX
+
+        self.lum_bef = self.lum_cur
+        self.lum_cur = next_lum
+
+    def append_history(self):
+        self.lum_history.pop(0)
+        self.lum_history.append(self.lum_cur - self.lum_bef)
+        for index, s in enumerate(self.sensor_list):
+            self.sensor_history[index].pop(0)
+            self.sensor_history[index].append(s.get_illuminance() - s.get_before())
+
+    def rollback(self):
+        self.lum_cur = self.lum_bef
+
+    def is_rollback(self):
+        if self.objective_cur < self.objective_next:
+            return True
+        else:
+            return False
 
     def shc_append_history(self):
         self.lum_history.append(self.lum_cur - self.lum_bef)

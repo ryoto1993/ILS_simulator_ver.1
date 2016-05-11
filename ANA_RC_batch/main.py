@@ -66,31 +66,35 @@ for i in range(0, 50):
             l.shc_rollback()
         update_sensors(lightList, useSensorList)
 
-# テスト
-for l in lightList:
-    l.calc_rc()
-for index, l in enumerate(lightList):
-    l.calc_current_objective()
-    print(str(index) + " " + str(l.get_rc()))
-
 # ここから1ステップ毎の処理を記述
-for i in range(0, 4000):
-    # 目的関数値計算
+for i in range(0, 1000):
+    # 回帰係数計算
+    for l in lightList:
+        l.calc_rc()
+    # 現在目的関数計算
+    for l in lightList:
+        l.calc_current_objective()
+    # 近傍選択
     for l in lightList:
         l.decide_neighbor()
-
-    # 各センサのランク付け
-
-    # 近傍設計の選択
-
-    # 光度をランダムに計算
-
-    # 回帰係数計算
-
-    # 目的関数値計算
-
+    # 光度値変動
+    for l in lightList:
+        l.set_random_luminosity()
+    update_sensors(lightList, useSensorList)
+    for l in lightList:
+        l.append_history()
+    # 変動後回帰係数計算
+    for l in lightList:
+        l.calc_rc()
+    # 次の目的関数計算
+    for l in lightList:
+        l.calc_next_objective()
     # ロールバック
-
+    for l in lightList:
+        if l.is_rollback():
+            l.rollback()
+    update_sensors(lightList, useSensorList)
+    print(i)
 
 # ファイルクローズ
 f.close()
