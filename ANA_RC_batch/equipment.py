@@ -225,14 +225,14 @@ class Neighbor:
         # node1
         if not ((1 in rank_list) or (2 in rank_list) or (3 in rank_list)):
             self.neighbor_design = 1
-            self.set_neighbor_design(sensor_list, rank_list)
+            self.set_neighbor_type(rank_list)
         else:
             # node2
             inf_count = 0
             inf_sensor_list = []
             inf_sensor_rank_list = []
             for index, r in enumerate(rank_list):
-                if (r == 1) or (r == 2) or (r == 3):
+                if r == 1 or r == 2 or r == 3:
                     inf_count += 1
                     inf_sensor_list.append(sensor_list[index])
                     inf_sensor_rank_list.append(rank_list[index])
@@ -242,23 +242,23 @@ class Neighbor:
                     # node5
                     if inf_sensor_list[0].get_illuminance() > 1.06 * inf_sensor_list[0].get_target:
                         self.neighbor_design = 3
-                        self.set_neighbor_design(inf_sensor_list, inf_sensor_rank_list)
+                        self.set_neighbor_type(inf_sensor_rank_list)
                     else:
                         self.neighbor_design = 2
-                        self.set_neighbor_design(inf_sensor_list, inf_sensor_rank_list)
+                        self.set_neighbor_type(inf_sensor_rank_list)
                 else:
                     # node6
                     if 0.98 * inf_sensor_list[0].get_target() <= inf_sensor_list[0].get_illuminance() < inf_sensor_list[0].get_target():
                         self.neighbor_design = 6
-                        self.set_neighbor_design(inf_sensor_list, inf_sensor_rank_list)
+                        self.set_neighbor_type(inf_sensor_rank_list)
                     else:
                     # node7
                         if 0.92 * inf_sensor_list[0].get_target() < inf_sensor_list[0].get_illuminance() < 0.98 * inf_sensor_list[0].get_target:
                             self.neighbor_design = 5
-                            self.set_neighbor_design(inf_sensor_list, inf_sensor_rank_list)
+                            self.set_neighbor_type(inf_sensor_rank_list)
                         else:
                             self.neighbor_design = 4
-                            self.set_neighbor_design(inf_sensor_list, inf_sensor_rank_list)
+                            self.set_neighbor_type(inf_sensor_rank_list)
             else:
                 # node4
                 unsatisfy_sensor_list = []
@@ -275,10 +275,10 @@ class Neighbor:
                             flag = True
                     if flag:
                         self.neighbor_design = 3
-                        self.set_neighbor_design(unsatisfy_sensor_list, unsatisfy_sensor_rank_list)
+                        self.set_neighbor_type(unsatisfy_sensor_rank_list)
                     else:
                         self.neighbor_design = 2
-                        self.set_neighbor_design(unsatisfy_sensor_list, unsatisfy_sensor_rank_list)
+                        self.set_neighbor_type(unsatisfy_sensor_rank_list)
                 else:
                     # node6
                     flag = False
@@ -293,13 +293,13 @@ class Neighbor:
                                 flag2 = True
                         if flag2:
                             self.neighbor_design = 4
-                            self.set_neighbor_design(unsatisfy_sensor_list, unsatisfy_sensor_rank_list)
+                            self.set_neighbor_type(unsatisfy_sensor_rank_list)
                         else:
                             self.neighbor_design = 5
-                            self.set_neighbor_design(unsatisfy_sensor_list, unsatisfy_sensor_rank_list)
+                            self.set_neighbor_type(unsatisfy_sensor_rank_list)
                     else:
                         self.neighbor_design = 6
-                        self.set_neighbor_design(unsatisfy_sensor_list, unsatisfy_sensor_rank_list)
+                        self.set_neighbor_type(unsatisfy_sensor_rank_list)
 
     def get_upper(self):
         return self.upper
