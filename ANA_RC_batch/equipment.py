@@ -19,8 +19,11 @@ class Light:
         self.lum_MAX = 1000  # 最大光度
         self.lum_MIN = 200   # 最小光度
         self.lum_cur = 200   # 現在光度
-        self.lum_next = 0    # 次の光度
+        self.lum_bef = 0    # 前の光度
+        self.objective_cur = 0  # 現在の目的関数値
+        self.objective_next = 0  # 次のステップの目的関数値
         self.weight = 15     # 評価値の重み
+        self.shc_weight = 15  # SHCの評価値の重み
 
         self.sensor_list = []   # センサリスト
         self.power_meter = []  # 電力計
@@ -31,28 +34,20 @@ class Light:
         self.sensor_rank = []     # 近傍決定のためのセンサのランク
         self.neighbor = Neighbor()  # 近傍設計
 
-        self.objective_cur = 0   # 現在の目的関数値
-        self.objective_next = 0  # 次のステップの目的関数値
-
     def __str__(self):
         return "Light" + str(self.ID)
 
     def get_luminosity(self):
         return self.lum_cur
 
+    def get_rc(self):
+        return self.sensor_rc
+
     def set_luminosity(self, lum):
         self.lum_cur = lum
 
     def set_weight(self, weight):
         self.weight = weight
-
-    def set_random_luminosity(self):
-        # self.lum_cur *= random.uniform(0.92, 1.06)
-        self.lum_cur = self.lum_cur * random.randint(92, 106) / 100
-        if self.lum_cur < self.lum_MIN:
-            self.lum_cur = self.lum_MIN
-        if self.lum_cur > self.lum_MAX:
-            self.lum_cur = self.lum_MAX
 
     def set_sensor_list(self, sensor_list):
         self.sensor_list = sensor_list
@@ -68,7 +63,7 @@ class Light:
         efunc = 0
 
         for index, s in enumerate(self.sensor_list):
-            if (0.06 * s.get_illuminance() <= s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target()):
+            if 0.06 * s.get_illuminance() <= s.get_illuminance() -s.get_target() < s.get_illuminance() - s.get_target():
                 if self.sensor_rc[index] >= 0.8:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target())**2
 
@@ -90,24 +85,54 @@ class Light:
                 self.sensor_rank[index] = 0
 
     def append_history(self):
-        self.lum_history.append(self.lum_cur)
+        self.lum_history.append(self.lum_cur - self.lum_bef)
         for index, s in enumerate(self.sensor_list):
-            self.sensor_history[index].append(s.get_illuminance())
+            self.sensor_history[index].append(s.get_illuminance() - s.get_before())
         # print(self.lum_history)
         # print(self.sensor_history)
 
-    def calc_shc_objective_function(self, weight):
+    def shc_calc_objective_function(self):
         light_weight = 0
 
         for s in self.sensor_list:
-            add = 0
             if s.get_illuminance() - s.get_target() >= 0:
-                add = 0
+                light_weight += 0
             else:
-                add = (s.get_illuminance() - s.get_target()) ** 2
-            light_weight += add
+                light_weight += (s.get_illuminance() - s.get_target()) ** 2
 
-        return self.power_meter.get_power() + weight * light_weight
+        self.objective_cur = self.power_meter[0].get_power() + self.shc_weight * light_weight
+
+    def shc_calc_next_objective_function(self):
+        light_weight = 0
+
+        for s in self.sensor_list:
+            if s.get_illuminance() - s.get_target() >= 0:
+                light_weight += 0
+            else:
+                light_weight += (s.get_illuminance() - s.get_target()) ** 2
+
+        self.objective_next = self.power_meter[0].get_power() + self.shc_weight * light_weight
+
+    def shc_set_random_luminosity(self):
+        next_lum = self.lum_cur
+
+        next_lum += (self.lum_MAX - self.lum_MIN) * random.randint(-8, 6) / 100
+        if next_lum < self.lum_MIN:
+            next_lum = self.lum_MIN
+        if next_lum > self.lum_MAX:
+            next_lum = self.lum_MAX
+
+        self.lum_bef = self.lum_cur
+        self.lum_cur = next_lum
+
+    def shc_is_rollback(self):
+        if self.objective_cur < self.objective_next:
+            return True
+        else:
+            return False
+
+    def shc_rollback(self):
+        self.lum_cur = self.lum_bef
 
 
 # 近傍設計
@@ -236,6 +261,7 @@ class Sensor:
         Sensor.ID += 1
         self.ill_tar = -1  # target illuminance
         self.ill_cur = 0  # current illuminance
+        self.ill_bef = 0
         self.influence = []  # influence
 
     def __str__(self):
@@ -250,6 +276,9 @@ class Sensor:
     def get_illuminance(self):
         return self.ill_cur
 
+    def get_before(self):
+        return self.ill_bef
+
     def get_target(self):
         return self.ill_tar
 
@@ -257,6 +286,7 @@ class Sensor:
         ill_tmp = 0
         for index, l in enumerate(light_list):
             ill_tmp += l.get_luminosity() * float(self.influence[index+1])
+        self.ill_bef = self.ill_cur
         self.ill_cur = ill_tmp
 
 

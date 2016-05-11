@@ -51,11 +51,32 @@ csvWriter.writerow(csvList)
 update_sensors(lightList, useSensorList)
 
 # SHCを50回回す
-for i in range(0, 50):
+for i in range(0, 100):
+    for l in lightList:
+        l.shc_calc_objective_function()
+    for l in lightList:
+        l.shc_set_random_luminosity()
+    update_sensors(lightList, useSensorList)
+    for l in lightList:
+        l.append_history()
+    for l in lightList:
+        l.shc_calc_next_objective_function()
+    if lightList[0].shc_is_rollback():
+        for l in lightList:
+            l.shc_rollback()
+        update_sensors(lightList, useSensorList)
 
+# テスト
+for l in lightList:
+    l.calc_rc()
+for index, l in enumerate(lightList):
+    print(index)
+    l.calc_current_objective()
+    print(l.get_rc())
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
+    pass
     # 目的関数値計算
 
     # 各センサのランク付け
