@@ -68,7 +68,6 @@ class Light:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target())**2
 
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
-        print(efunc)
 
     def calc_next_objective(self):
         efunc = 0
@@ -123,8 +122,8 @@ class Light:
         self.lum_cur = self.lum_bef
 
     def is_rollback(self):
-        print(self.objective_cur)
-        print(self.objective_next)
+        # print(self.objective_cur)
+        # print(self.objective_next)
         if self.objective_cur < self.objective_next:
             return True
         else:
@@ -230,7 +229,8 @@ class Neighbor:
                 self.neighbor_type = "b"
                 self.set_neighbor("b")
             else:
-                print("近傍選択できません．エラーです！")
+                print("近傍選択できません．エラーです！e02")
+                print(rank_list)
         elif self.neighbor_design == 3:
             if 1 in rank_list:
                 self.neighbor_type = "c"
@@ -242,7 +242,8 @@ class Neighbor:
                 self.neighbor_type = "a"
                 self.set_neighbor("a")
             else:
-                print("近傍選択できません．エラーです！")
+                print("近傍選択できません．エラーです！e03")
+                print(rank_list)
         elif self.neighbor_design == 4:
             if 1 in rank_list:
                 self.neighbor_type = "g"
@@ -254,7 +255,7 @@ class Neighbor:
                 self.neighbor_type = "e"
                 self.set_neighbor("e")
             else:
-                print("近傍選択できません．エラーです！")
+                print("近傍選択できません．エラーです！e04")
         elif self.neighbor_design == 5:
             if 1 in rank_list:
                 self.neighbor_type = "f"
@@ -266,7 +267,7 @@ class Neighbor:
                 self.neighbor_type = "d"
                 self.set_neighbor("d")
             else:
-                print("近傍選択できません．エラーです！")
+                print("近傍選択できません．エラーです！e05")
         elif self.neighbor_design == 6:
             if 1 in rank_list:
                 self.neighbor_type = "e"
@@ -278,7 +279,7 @@ class Neighbor:
                 self.neighbor_type = "c"
                 self.set_neighbor("c")
             else:
-                print("近傍選択できません．エラーです！")
+                print("近傍選択できません．エラーです！e06")
 
     def set_neighbor_design(self, sensor_list, rank_list):
         # node1
@@ -334,10 +335,10 @@ class Neighbor:
                             flag = True
                     if flag:
                         self.neighbor_design = 3
-                        self.set_neighbor_type(unsatisfy_sensor_rank_list)
+                        self.set_neighbor_type(inf_sensor_rank_list)
                     else:
                         self.neighbor_design = 2
-                        self.set_neighbor_type(unsatisfy_sensor_rank_list)
+                        self.set_neighbor_type(inf_sensor_rank_list)
                 else:
                     # node6
                     flag = False
