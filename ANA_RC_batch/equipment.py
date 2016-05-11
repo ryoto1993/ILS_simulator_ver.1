@@ -19,6 +19,7 @@ class Light:
         self.lum_MAX = 1000  # 最大光度
         self.lum_MIN = 200   # 最小光度
         self.lum_cur = 200   # 現在光度
+        self.lum_next = 0    # 次の光度
         self.weight = 15     # 評価値の重み
 
         self.sensor_list = []   # センサリスト
@@ -94,6 +95,19 @@ class Light:
             self.sensor_history[index].append(s.get_illuminance())
         # print(self.lum_history)
         # print(self.sensor_history)
+
+    def calc_shc_objective_function(self, weight):
+        light_weight = 0
+
+        for s in self.sensor_list:
+            add = 0
+            if s.get_illuminance() - s.get_target() >= 0:
+                add = 0
+            else:
+                add = (s.get_illuminance() - s.get_target()) ** 2
+            light_weight += add
+
+        return self.power_meter.get_power() + weight * light_weight
 
 
 # 近傍設計
