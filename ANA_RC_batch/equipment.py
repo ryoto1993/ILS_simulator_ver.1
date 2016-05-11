@@ -130,11 +130,81 @@ class Neighbor:
             self.upper = 12
             self.lower = -1
 
-    def set_neighbor(self, light_list, rank_list):
+    def set_neighbor(self, light_list, sensor_list, rank_list):
         # node1
         if not ((1 in rank_list) or (2 in rank_list) or (3 in rank_list)):
-            print("")
-
+            print("Set design 1")
+            self.neighbor_design = 1
+        else:
+            # node2
+            inf_count = 0
+            inf_sensor_list = []
+            for index, r in enumerate(rank_list):
+                if (1 in r) or (2 in r) or (3 in r):
+                    inf_count += 1
+                    inf_sensor_list.append(sensor_list[index])
+            if inf_count == 1:
+                # node3
+                if inf_sensor_list[0].get_illuminance() > inf_sensor_list[0].get_target():
+                    # node5
+                    if inf_sensor_list[0].get_illuminance() > 1.06 * inf_sensor_list[0].get_target:
+                        print("Set design 3")
+                        self.neighbor_design = 3
+                    else:
+                        print("Set design 2")
+                        self.neighbor_design = 2
+                else:
+                    # node6
+                    if 0.98 * inf_sensor_list[0].get_target() <= inf_sensor_list[0].get_illuminance() < inf_sensor_list[0].get_target():
+                        print("Set design 6")
+                        self.neighbor_design = 6
+                    else:
+                    # node7
+                        if 0.92 * inf_sensor_list[0].get_target() < inf_sensor_list[0].get_illuminance() < 0.98 * inf_sensor_list[0].get_target:
+                            print("Set design 5")
+                            self.neighbor_design = 5
+                        else:
+                            print("Set design 4")
+                            self.neighbor_design = 4
+            else:
+                # node4
+                unsatisfy_sensor_list = []
+                for s in inf_sensor_list:
+                    if s.get_illuminance() < s.get_target():
+                        unsatisfy_sensor_list.append(s)
+                if len(unsatisfy_sensor_list) == 0:
+                    # node5
+                    flag = False
+                    for s in inf_sensor_list:
+                        if s.get_illuminance() > 1.06 * s.get_target():
+                            flag = True
+                    if flag:
+                        print("Set design 3")
+                        self.neighbor_design = 3
+                    else:
+                        print("Set design 2")
+                        self.neighbor_design = 2
+                else:
+                    # node6
+                    flag = False
+                    for s in unsatisfy_sensor_list:
+                        if not (0.98 * s.get_target() <= s.get_illuminance() < s.get_target()):
+                            flag = True
+                    if flag:
+                        # node7
+                        flag2 = False
+                        for s in unsatisfy_sensor_list:
+                            if not (0.92 * s.get_target() < s.get_illuminance() < 0.98 * s.get_target()):
+                                flag2 = True
+                        if flag2:
+                            print("Set design 4")
+                            self.neighbor_design = 4
+                        else:
+                            print("Set design 5")
+                            self.neighbor_design = 5
+                    else:
+                        print("Set design 6")
+                        self.neighbor_design = 6
 
     def get_upper(self):
         return self.upper
