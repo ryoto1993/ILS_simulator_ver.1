@@ -30,7 +30,7 @@ class Light:
 
         self.lum_history = []     # 光度値履歴
         self.sensor_history = []  # 全センサの照度値履歴
-        self.sensor_rc = []       # 各センサの相関係数
+        self.sensor_rc = []       # 各センサの回帰係数
         self.sensor_rank = []     # 近傍決定のためのセンサのランク
         self.neighbor = Neighbor()  # 近傍設計
 
@@ -48,6 +48,9 @@ class Light:
 
     def set_luminosity(self, lum):
         self.lum_cur = lum
+
+    def get_rc(self):
+        return self.sensor_rc
 
     def set_weight(self, weight):
         self.weight = weight
@@ -122,10 +125,7 @@ class Light:
             self.sensor_history[index].append(s.get_illuminance() - s.get_before())
 
     def rollback(self):
-        print("cur " + str(self.lum_cur))
-        print("bef " + str(self.lum_bef))
         self.lum_cur = self.lum_bef
-        print("cur " + str(self.lum_cur))
 
     def is_rollback(self):
         # print(self.objective_cur)

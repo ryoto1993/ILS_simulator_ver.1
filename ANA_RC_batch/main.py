@@ -94,8 +94,6 @@ for i in range(0, 1000):
     # 近傍選択
     for l in lightList:
         l.decide_neighbor()
-    print("step " + str(i))
-    print(lightList[0].get_neighbor_design())
     # 光度値変動
     for l in lightList:
         l.set_random_luminosity()
@@ -123,7 +121,6 @@ for i in range(0, 1000):
     # ロールバック
     for l in lightList:
         if l.is_rollback():
-            print(l.is_rollback())
             l.rollback()
     update_sensors(lightList, useSensorList)
 
