@@ -76,6 +76,8 @@ for index, l in enumerate(lightList):
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
     # 目的関数値計算
+    for l in lightList:
+        l.decide_neighbor()
 
     # 各センサのランク付け
 
