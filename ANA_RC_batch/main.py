@@ -50,32 +50,12 @@ csvWriter.writerow(csvList)
 # センサの更新
 update_sensors(lightList, useSensorList)
 
-# テスト
-for l in lightList:
-    l.append_history()
-for l in lightList:
-    l.set_random_luminosity()
+# SHCを50回回す
 
-update_sensors(lightList, useSensorList)
-
-for l in lightList:
-    l.append_history()
-for l in lightList:
-    l.set_random_luminosity()
-
-update_sensors(lightList, useSensorList)
-
-for l in lightList:
-    l.append_history()
-    #print(l)
-    l.calc_rc()
-    l.calc_current_objective()
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 4000):
     pass
-    # 移動検知した場合回帰係数リセット
-
     # 目的関数値計算
 
     # 各センサのランク付け
