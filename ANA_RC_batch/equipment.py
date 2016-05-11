@@ -170,53 +170,69 @@ class Neighbor:
             self.upper = 12
             self.lower = -1
 
-        print(self.neighbor_type)
+        # print(self.neighbor_type)
 
     def set_neighbor_type(self, rank_list):
         if self.neighbor_design == 1:
+            self.neighbor_type = "a"
             self.set_neighbor("a")
         elif self.neighbor_design == 2:
             if 1 in rank_list:
+                self.neighbor_type = "d"
                 self.set_neighbor("d")
             elif 2 in rank_list:
+                self.neighbor_type = "c"
                 self.set_neighbor("c")
             elif 3 in rank_list:
+                self.neighbor_type = "b"
                 self.set_neighbor("b")
             else:
                 print("近傍選択できません．エラーです！")
         elif self.neighbor_design == 3:
             if 1 in rank_list:
+                self.neighbor_type = "c"
                 self.set_neighbor("c")
             elif 2 in rank_list:
+                self.neighbor_type = "b"
                 self.set_neighbor("b")
             elif 3 in rank_list:
+                self.neighbor_type = "a"
                 self.set_neighbor("a")
             else:
                 print("近傍選択できません．エラーです！")
         elif self.neighbor_design == 4:
             if 1 in rank_list:
+                self.neighbor_type = "g"
                 self.set_neighbor("g")
             elif 2 in rank_list:
+                self.neighbor_type = "f"
                 self.set_neighbor("f")
             elif 3 in rank_list:
+                self.neighbor_type = "e"
                 self.set_neighbor("e")
             else:
                 print("近傍選択できません．エラーです！")
         elif self.neighbor_design == 5:
             if 1 in rank_list:
+                self.neighbor_type = "f"
                 self.set_neighbor("f")
             elif 2 in rank_list:
+                self.neighbor_type = "e"
                 self.set_neighbor("e")
             elif 3 in rank_list:
+                self.neighbor_type = "d"
                 self.set_neighbor("d")
             else:
                 print("近傍選択できません．エラーです！")
         elif self.neighbor_design == 6:
             if 1 in rank_list:
+                self.neighbor_type = "e"
                 self.set_neighbor("e")
             elif 2 in rank_list:
+                self.neighbor_type = "d"
                 self.set_neighbor("d")
             elif 3 in rank_list:
+                self.neighbor_type = "c"
                 self.set_neighbor("c")
             else:
                 print("近傍選択できません．エラーです！")
