@@ -75,21 +75,19 @@ class Light:
             a, b = calc_regression_coefficient(self.lum_history, self.sensor_history[index])
             self.sensor_rc[index] = a
 
-            if a >= 3.0:
+            if a >= 0.2:
                 self.sensor_rank[index] = 1
-            elif a >= 2.0:
+            elif a >= 0.1:
                 self.sensor_rank[index] = 2
-            elif a >= 1.5:
+            elif a >= 0.06:
                 self.sensor_rank[index] = 3
             else:
                 self.sensor_rank[index] = 0
 
-    def append_history(self):
+    def shc_append_history(self):
         self.lum_history.append(self.lum_cur - self.lum_bef)
         for index, s in enumerate(self.sensor_list):
             self.sensor_history[index].append(s.get_illuminance() - s.get_before())
-        # print(self.lum_history)
-        # print(self.sensor_history)
 
     def shc_calc_objective_function(self):
         light_weight = 0
