@@ -64,7 +64,7 @@ class Light:
 
         for index, s in enumerate(self.sensor_list):
             if 0.06 * s.get_illuminance() <= s.get_illuminance() -s.get_target() < s.get_illuminance() - s.get_target():
-                if self.sensor_rc[index] >= 0.8:
+                if self.sensor_rc[index] >= 0.02:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target())**2
 
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
