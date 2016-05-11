@@ -43,6 +43,9 @@ class Light:
     def get_rc(self):
         return self.sensor_rc
 
+    def get_neighbor_design(self):
+        return self.neighbor.neighbor_design
+
     def set_luminosity(self, lum):
         self.lum_cur = lum
 
@@ -63,7 +66,7 @@ class Light:
         efunc = 0
 
         for index, s in enumerate(self.sensor_list):
-            if 0.06 * (s.get_illuminance() <= s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target() < 0):
+            if 0.06 * s.get_illuminance() <= (s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target() < 0):
                 if self.sensor_rc[index] >= 0.02:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target())**2
 
@@ -73,7 +76,7 @@ class Light:
         efunc = 0
 
         for index, s in enumerate(self.sensor_list):
-            if 0.06 * s.get_illuminance() <= s.get_illuminance() - s.get_target() < s.get_illuminance() - s.get_target():
+            if 0.06 * s.get_illuminance() <= (s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target() < 0):
                 if self.sensor_rc[index] >= 0.02:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target()) ** 2
 
@@ -119,7 +122,10 @@ class Light:
             self.sensor_history[index].append(s.get_illuminance() - s.get_before())
 
     def rollback(self):
+        print("cur " + str(self.lum_cur))
+        print("bef " + str(self.lum_bef))
         self.lum_cur = self.lum_bef
+        print("cur " + str(self.lum_cur))
 
     def is_rollback(self):
         # print(self.objective_cur)

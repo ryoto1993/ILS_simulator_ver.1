@@ -66,6 +66,12 @@ for i in range(0, 50):
             l.shc_rollback()
         update_sensors(lightList, useSensorList)
 
+# 初期化
+for l in lightList:
+    l.set_luminosity(200)
+update_sensors(lightList, useSensorList)
+
+
 # ここから1ステップ毎の処理を記述
 for i in range(0, 1000):
     # CSV出力
@@ -88,6 +94,8 @@ for i in range(0, 1000):
     # 近傍選択
     for l in lightList:
         l.decide_neighbor()
+    print("step " + str(i))
+    print(lightList[0].get_neighbor_design())
     # 光度値変動
     for l in lightList:
         l.set_random_luminosity()
@@ -115,6 +123,7 @@ for i in range(0, 1000):
     # ロールバック
     for l in lightList:
         if l.is_rollback():
+            print(l.is_rollback())
             l.rollback()
     update_sensors(lightList, useSensorList)
 
