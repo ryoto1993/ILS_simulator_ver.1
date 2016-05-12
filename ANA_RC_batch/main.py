@@ -30,6 +30,7 @@ powerMeter.set_light_list(lightList)
 # 使用するセンサを設定
 sensorList[10].set_target_illuminance(300)
 sensorList[56].set_target_illuminance(500)
+sensorList[25].set_target_illuminance(500)
 sensorList[87].set_target_illuminance(700)
 useSensorList.append(sensorList[10])
 useSensorList.append(sensorList[56])
@@ -74,13 +75,18 @@ update_sensors(lightList, useSensorList)
 
 # ここから1ステップ毎の処理を記述
 for i in range(0, 1000):
+    if i == 100:
+        update_sensors(lightList, sensorList)
+        useSensorList.pop(1)
+        useSensorList.insert(1, sensorList[25])
+
     # CSV出力
     csvList.clear()
     csvList.append(i)
     csvList.append(powerMeter.get_power())
-    csvList.append(str(int(sensorList[10].get_illuminance())))
-    csvList.append(str(int(sensorList[56].get_illuminance())))
-    csvList.append(str(int(sensorList[87].get_illuminance())))
+    csvList.append(str(int(useSensorList[0].get_illuminance())))
+    csvList.append(str(int(useSensorList[1].get_illuminance())))
+    csvList.append(str(int(useSensorList[2].get_illuminance())))
     for l in lightList:
         csvList.append(str(int(l.get_luminosity())))
     csvWriter.writerow(csvList)
@@ -105,9 +111,9 @@ for i in range(0, 1000):
     csvList.clear()
     csvList.append(i)
     csvList.append(powerMeter.get_power())
-    csvList.append(str(int(sensorList[10].get_illuminance())))
-    csvList.append(str(int(sensorList[56].get_illuminance())))
-    csvList.append(str(int(sensorList[87].get_illuminance())))
+    csvList.append(str(int(useSensorList[0].get_illuminance())))
+    csvList.append(str(int(useSensorList[1].get_illuminance())))
+    csvList.append(str(int(useSensorList[2].get_illuminance())))
     for l in lightList:
         csvList.append(str(int(l.get_luminosity())))
     csvWriter.writerow(csvList)
