@@ -20,6 +20,14 @@ class AnaRc:
         for l in self.lightList:
             self.csv_list.append(l)
         self.csv_writer.writerow(self.csv_list)
+
+        # 回帰係数出力テスト
+        self.rccsv = open('data/ANA_RC/rc.csv', 'w')
+        self.rccsv_writer = csv.writer(self.rccsv)
+        self.rccsv_list = ["Step"]
+        for s in self.useSensorList:
+            self.rccsv_list.append(s)
+        self.rccsv_writer.writerow(self.rccsv_list)
         
     def start(self):
         # センサの更新
@@ -50,6 +58,16 @@ class AnaRc:
                 self.csv_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
 
+        for l in self.lightList:
+            l.calc_rc()
+
+        self.rccsv_list.clear()
+        self.rccsv_list.append("SHC")
+        self.rccsv_list.append(self.lightList[0].get_rc()[0])
+        self.rccsv_list.append(self.lightList[0].get_rc()[1])
+        self.rccsv_list.append(self.lightList[0].get_rc()[2])
+        self.rccsv_writer.writerow(self.rccsv_list)
+
         # 初期化
         for l in self.lightList:
             pass
@@ -73,7 +91,14 @@ class AnaRc:
 
             # 回帰係数計算
             for l in self.lightList:
+                pass
                 l.calc_rc()
+            self.rccsv_list.clear()
+            self.rccsv_list.append(i)
+            self.rccsv_list.append(self.lightList[0].get_rc()[0])
+            self.rccsv_list.append(self.lightList[0].get_rc()[1])
+            self.rccsv_list.append(self.lightList[0].get_rc()[2])
+            self.rccsv_writer.writerow(self.rccsv_list)
             # 現在目的関数計算
             for l in self.lightList:
                 l.calc_current_objective()
@@ -97,8 +122,11 @@ class AnaRc:
                 self.csv_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
 
+            print(i)
+
             # 変動後回帰係数計算
             for l in self.lightList:
+                pass
                 l.calc_rc()
             # 次の目的関数計算
             for l in self.lightList:
@@ -106,6 +134,7 @@ class AnaRc:
             # ロールバック
             for l in self.lightList:
                 if l.is_rollback():
+                    print("rollback")
                     l.rollback()
             update_sensors(self.lightList, self.useSensorList)
 

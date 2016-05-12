@@ -108,7 +108,8 @@ class Light:
     def set_random_luminosity(self):
         next_lum = self.lum_cur
 
-        next_lum += (self.lum_MAX - self.lum_MIN) * random.randint(self.neighbor.get_lower(), self.neighbor.get_upper()) / 100
+        # next_lum += self.lum_MAX * random.randint(self.neighbor.get_lower(), self.neighbor.get_upper()) / 100
+        next_lum = self.lum_cur * (100 + random.randint(self.neighbor.get_lower(), self.neighbor.get_upper())) / 100
         if next_lum < self.lum_MIN:
             next_lum = self.lum_MIN
         if next_lum > self.lum_MAX:
@@ -295,6 +296,7 @@ class Neighbor:
         if not ((1 in rank_list) or (2 in rank_list) or (3 in rank_list)):
             self.neighbor_design = 1
             self.set_neighbor_type(rank_list)
+
         else:
             # node2
             inf_count = 0
@@ -321,7 +323,7 @@ class Neighbor:
                         self.neighbor_design = 6
                         self.set_neighbor_type(inf_sensor_rank_list)
                     else:
-                    # node7
+                        # node7
                         if 0.92 * inf_sensor_list[0].get_target() < inf_sensor_list[0].get_illuminance() < 0.98 * inf_sensor_list[0].get_target():
                             self.neighbor_design = 5
                             self.set_neighbor_type(inf_sensor_rank_list)
