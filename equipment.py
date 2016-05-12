@@ -43,6 +43,9 @@ class Light:
     def get_rc(self):
         return self.sensor_rc
 
+    def get_min(self):
+        return self.lum_MIN
+
     def get_neighbor_design(self):
         return self.neighbor.neighbor_design
 

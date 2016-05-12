@@ -40,10 +40,20 @@ class AnaRc:
                 for l in self.lightList:
                     l.shc_rollback()
                 update_sensors(self.lightList, self.useSensorList)
+            # CSV出力
+            self.csv_list.clear()
+            self.csv_list.append(i)
+            self.csv_list.append(self.powerMeter.get_power())
+            for s in self.useSensorList:
+                self.csv_list.append(str(int(s.get_illuminance())))
+            for l in self.lightList:
+                self.csv_list.append(str(int(l.get_luminosity())))
+            self.csv_writer.writerow(self.csv_list)
 
         # 初期化
         for l in self.lightList:
-            l.set_luminosity(200)
+            pass
+            # l.set_luminosity(l.get_min())
         update_sensors(self.lightList, self.useSensorList)
 
         # ここから1ステップ毎の処理を記述
@@ -81,9 +91,8 @@ class AnaRc:
             self.csv_list.clear()
             self.csv_list.append(i)
             self.csv_list.append(self.powerMeter.get_power())
-            self.csv_list.append(str(int(self.useSensorList[0].get_illuminance())))
-            self.csv_list.append(str(int(self.useSensorList[1].get_illuminance())))
-            self.csv_list.append(str(int(self.useSensorList[2].get_illuminance())))
+            for s in self.useSensorList:
+                self.csv_list.append(str(int(s.get_illuminance())))
             for l in self.lightList:
                 self.csv_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
