@@ -10,22 +10,8 @@ print("最適化アルゴリズム：ANA/RC")
 lightList = []
 sensorList = []
 useSensorList = []
-f = open('../influenceKC111FL.csv', 'r')
 save_csv = open('../data/ANA_RC/log.csv', 'w')
-reader = csv.reader(f)
-header = next(reader)
 csvWriter = csv.writer(save_csv)
-
-# 装置の準備
-for var in range(0, 15):
-    lightList.append(Light())
-
-for var in range(0, 97):
-    sensorList.append(Sensor())
-    sensorList[var].set_influence(next(reader))
-
-powerMeter = PowerMeter()
-powerMeter.set_light_list(lightList)
 
 # 使用するセンサを設定
 sensorList[10].set_target_illuminance(300)
