@@ -2,7 +2,7 @@
 
 import csv
 
-from ANA_RC_batch.equipment import *
+from equipment import *
 
 print("知的照明システムシミュレーター ver.0.2")
 print("最適化アルゴリズム：ANA/RC")
