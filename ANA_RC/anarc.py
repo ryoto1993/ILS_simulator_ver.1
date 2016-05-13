@@ -12,7 +12,7 @@ class AnaRc:
         self.powerMeter = Initial.powerMeter[0]  # 電力計
 
         # csvの作成
-        self.save_csv = open('data/ANA_RC/log.csv', 'w')
+        self.save_csv = open('data/ANA_RC/log.csv', 'w', newline='')
         self.csv_writer = csv.writer(self.save_csv)
         self.csv_list = ["Step", "Power"]
         for s in self.useSensorList:
@@ -22,7 +22,7 @@ class AnaRc:
         self.csv_writer.writerow(self.csv_list)
 
         # 回帰係数出力テスト
-        self.rccsv = open('data/ANA_RC/rc.csv', 'w')
+        self.rccsv = open('data/ANA_RC/rc.csv', 'w', newline='')
         self.rccsv_writer = csv.writer(self.rccsv)
         self.rccsv_list = ["Step"]
         for s in self.useSensorList:

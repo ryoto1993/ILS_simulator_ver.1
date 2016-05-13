@@ -7,6 +7,7 @@ def calc_regression_coefficient(dataset_a, dataset_b):
         return 0, 0
 
     num = len(dataset_a)
+
     sum_pow_a = 0
     sum_ab = 0
     sum_a = 0
