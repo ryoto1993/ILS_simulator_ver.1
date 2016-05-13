@@ -122,8 +122,6 @@ class AnaRc:
                 self.csv_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
 
-            print(i)
-
             # 変動後回帰係数計算
             for l in self.lightList:
                 pass
@@ -134,7 +132,6 @@ class AnaRc:
             # ロールバック
             for l in self.lightList:
                 if l.is_rollback():
-                    print("rollback")
                     l.rollback()
             update_sensors(self.lightList, self.useSensorList)
 
