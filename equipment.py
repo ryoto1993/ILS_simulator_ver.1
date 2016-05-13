@@ -16,13 +16,13 @@ class Light:
         self.ID = Light.ID
         Light.ID += 1
         self.name = ""
-        self.lum_MAX = 1000  # 最大光度
-        self.lum_MIN = 200   # 最小光度
-        self.lum_cur = 200   # 現在光度
+        self.lum_MAX = 0  # 最大光度
+        self.lum_MIN = 0   # 最小光度
+        self.lum_cur = 0   # 現在光度
         self.lum_bef = 0    # 前の光度
         self.objective_cur = 0  # 現在の目的関数値
         self.objective_next = 0  # 次のステップの目的関数値
-        self.weight = 15     # 評価値の重み
+        self.weight = 0    # 評価値の重み
         self.shc_weight = 15  # SHCの評価値の重み
 
         self.sensor_list = []   # センサリスト
@@ -51,6 +51,10 @@ class Light:
 
     def set_luminosity(self, lum):
         self.lum_cur = lum
+
+    def set_min_max(self, minlum, maxlum):
+        self.lum_MIN = minlum
+        self.lum_MAX = maxlum
 
     def get_rc(self):
         return self.sensor_rc

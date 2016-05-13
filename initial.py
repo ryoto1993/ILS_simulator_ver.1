@@ -13,6 +13,11 @@ class Initial:
     sensorConfig = [[10, 300], [56, 500], [87, 700]]
     # 重み
     weight = 15
+    # 初期光度値
+    initLum = 200
+    # 最小，最大光度値
+    minLum = 200
+    maxLum = 1000
 
     # 設定用変数
     lightList = []
@@ -47,3 +52,5 @@ class Initial:
             l.set_sensor_list(Initial.useSensorList)
             l.set_weight(Initial.weight)
             l.set_power_meter(Initial.powerMeter[0])
+            l.set_luminosity(Initial.initLum)
+            l.set_min_max(Initial.minLum, Initial.maxLum)

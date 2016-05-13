@@ -82,7 +82,7 @@ class AnaRc:
             # CSV出力
             self.csv_list.clear()
             self.csv_list.append(i)
-            self.csv_list.append(self.powerMeter.get_power())
+            self.csv_list.append(str(int(self.powerMeter.get_power())))
             for s in self.useSensorList:
                 self.csv_list.append(str(int(s.get_illuminance())))
             for l in self.lightList:
@@ -115,7 +115,7 @@ class AnaRc:
             # CSV
             self.csv_list.clear()
             self.csv_list.append(i)
-            self.csv_list.append(self.powerMeter.get_power())
+            self.csv_list.append(str(int(self.powerMeter.get_power())))
             for s in self.useSensorList:
                 self.csv_list.append(str(int(s.get_illuminance())))
             for l in self.lightList:
