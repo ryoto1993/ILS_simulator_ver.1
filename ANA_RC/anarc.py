@@ -134,6 +134,9 @@ class AnaRc:
                 if l.is_rollback():
                     l.rollback()
             update_sensors(self.lightList, self.useSensorList)
+            for l in self.lightList:
+                if l.is_rollback():
+                    l.append_history()
 
         # ファイルクローズ
         self.save_csv.close()

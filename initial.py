@@ -10,7 +10,7 @@ class Initial:
     # センサの数
     sensor = 98
     # 使用するセンサのリスト
-    sensorConfig = [[10, 300], [56, 500], [87, 700]]
+    sensorConfig = [[10, 300], [55, 500], [79, 700]]
     # 重み
     weight = 15
     # 初期光度値
