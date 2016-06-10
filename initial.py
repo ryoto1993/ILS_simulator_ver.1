@@ -6,11 +6,11 @@ import csv
 
 class Initial:
     # 照明の数
-    light = 16
+    light = 13
     # センサの数
-    sensor = 98
+    sensor = 66
     # 使用するセンサのリスト
-    sensorConfig = [[10, 300], [55, 500], [79, 700]]
+    sensorConfig = [[32, 300], [12, 700]]
     # 重み
     weight = 15
     # 初期光度値
@@ -27,7 +27,7 @@ class Initial:
 
     @staticmethod
     def set():
-        f = open('influenceKC111FL.csv', 'r')
+        f = open('coefficient1.csv', 'r')
         reader = csv.reader(f)
         next(reader)  # ヘッダを読み飛ばす
 

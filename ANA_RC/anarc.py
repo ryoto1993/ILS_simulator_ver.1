@@ -12,7 +12,7 @@ class AnaRc:
         self.powerMeter = Initial.powerMeter[0]  # 電力計
 
         # csvの作成
-        self.save_csv = open('data/ANA_RC/log.csv', 'w', newline='')
+        self.save_csv = open('data/ANA_RC/BACnet/log.csv', 'w', newline='')
         self.csv_writer = csv.writer(self.save_csv)
         self.csv_list = ["Step", "Power"]
         for s in self.useSensorList:
@@ -22,7 +22,7 @@ class AnaRc:
         self.csv_writer.writerow(self.csv_list)
 
         # 回帰係数出力テスト
-        self.rccsv = open('data/ANA_RC/rc.csv', 'w', newline='')
+        self.rccsv = open('data/ANA_RC/BACnet/rc.csv', 'w', newline='')
         self.rccsv_writer = csv.writer(self.rccsv)
         self.rccsv_list = ["Step"]
         for s in self.useSensorList:
@@ -65,7 +65,6 @@ class AnaRc:
         self.rccsv_list.append("SHC")
         self.rccsv_list.append(self.lightList[0].get_rc()[0])
         self.rccsv_list.append(self.lightList[0].get_rc()[1])
-        self.rccsv_list.append(self.lightList[0].get_rc()[2])
         self.rccsv_writer.writerow(self.rccsv_list)
 
         # 初期化
@@ -75,7 +74,7 @@ class AnaRc:
         update_sensors(self.lightList, self.useSensorList)
 
         # ここから1ステップ毎の処理を記述
-        for i in range(0, 1000):
+        for i in range(0, 700):
 
             # ######## センサの変更ルール処理をここで記述！
 
@@ -97,7 +96,6 @@ class AnaRc:
             self.rccsv_list.append(i)
             self.rccsv_list.append(self.lightList[0].get_rc()[0])
             self.rccsv_list.append(self.lightList[0].get_rc()[1])
-            self.rccsv_list.append(self.lightList[0].get_rc()[2])
             self.rccsv_writer.writerow(self.rccsv_list)
             # 現在目的関数計算
             for l in self.lightList:
