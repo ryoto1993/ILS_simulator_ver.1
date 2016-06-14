@@ -8,7 +8,7 @@ class Initial:
     # 照明の数
     light = 12
     # センサの数
-    sensor = 66
+    sensor = 54
     # 使用するセンサのリスト
     sensorConfig = [[10, 300], [28, 450]]
     # 重み
@@ -32,10 +32,10 @@ class Initial:
         next(reader)  # ヘッダを読み飛ばす
 
         # 装置の準備
-        for var in range(0, Initial.light-1):
+        for var in range(0, Initial.light):
             Initial.lightList.append(Light())
 
-        for var in range(0, Initial.sensor-1):
+        for var in range(0, Initial.sensor):
             Initial.sensorList.append(Sensor())
             Initial.sensorList[var].set_influence(next(reader))
 

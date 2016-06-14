@@ -65,7 +65,7 @@ class AnaRc:
         self.rccsv_list.append("SHC")
         self.rccsv_list.append(self.lightList[0].get_rc()[0])
         self.rccsv_list.append(self.lightList[0].get_rc()[1])
-        self.rccsv_list.append(self.lightList[0].get_rc()[2])
+        # self.rccsv_list.append(self.lightList[0].get_rc()[2])
         self.rccsv_writer.writerow(self.rccsv_list)
 
         # 初期化
@@ -97,7 +97,7 @@ class AnaRc:
             self.rccsv_list.append(i)
             self.rccsv_list.append(self.lightList[0].get_rc()[0])
             self.rccsv_list.append(self.lightList[0].get_rc()[1])
-            self.rccsv_list.append(self.lightList[0].get_rc()[2])
+            # self.rccsv_list.append(self.lightList[0].get_rc()[2])
             self.rccsv_writer.writerow(self.rccsv_list)
             # 現在目的関数計算
             for l in self.lightList:

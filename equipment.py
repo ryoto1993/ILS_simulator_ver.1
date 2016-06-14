@@ -10,7 +10,7 @@ def update_sensors(light_list, sensor_list):
 
 
 class Light:
-    ID = 0
+    ID = 1
 
     def __init__(self):
         self.ID = Light.ID
@@ -384,7 +384,7 @@ class Neighbor:
 
 
 class Sensor:
-    ID = 0
+    ID = 1
 
     def __init__(self):
         self.ID = Sensor.ID
