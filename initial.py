@@ -27,7 +27,7 @@ class Initial:
 
     @staticmethod
     def set():
-        f = open('influenceKC111FL.csv', 'r')
+        f = open('coefficient4_reverse.csv', 'r')
         reader = csv.reader(f)
         next(reader)  # ヘッダを読み飛ばす
 
