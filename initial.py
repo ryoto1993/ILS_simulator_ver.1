@@ -17,7 +17,7 @@ class Initial:
     initLum = 200
     # 最小，最大光度値
     minLum = 200
-    maxLum = 1000
+    maxLum = 1200
 
     # 設定用変数
     lightList = []
