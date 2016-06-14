@@ -6,11 +6,11 @@ import csv
 
 class Initial:
     # 照明の数
-    light = 16
+    light = 12
     # センサの数
-    sensor = 98
+    sensor = 66
     # 使用するセンサのリスト
-    sensorConfig = [[10, 300], [55, 500], [79, 700]]
+    sensorConfig = [[10, 300], [28, 450]]
     # 重み
     weight = 15
     # 初期光度値
@@ -44,8 +44,8 @@ class Initial:
 
         # 使用するセンサを設定
         for s in Initial.sensorConfig:
-            Initial.sensorList[s[0]].set_target_illuminance(s[1])
-            Initial.useSensorList.append(Initial.sensorList[s[0]])
+            Initial.sensorList[s[0]-1].set_target_illuminance(s[1])
+            Initial.useSensorList.append(Initial.sensorList[s[0]-1])
 
         # 使用する照明を設定
         for l in Initial.lightList:
