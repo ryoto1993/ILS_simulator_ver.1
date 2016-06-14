@@ -10,7 +10,7 @@ class Initial:
     # センサの数
     sensor = 54
     # 使用するセンサのリスト
-    sensorConfig = [[10, 300], [28, 450]]
+    sensorConfig = [[10, 700], [28, 400]]
     # 重み
     weight = 15
     # 初期光度値
@@ -18,6 +18,8 @@ class Initial:
     # 最小，最大光度値
     minLum = 200
     maxLum = 1200
+    # 影響度ファイル
+    coefficient_file = "coefficient4_reverse.csv"
 
     # 設定用変数
     lightList = []
@@ -27,7 +29,7 @@ class Initial:
 
     @staticmethod
     def set():
-        f = open('coefficient4_reverse.csv', 'r')
+        f = open(Initial.coefficient_file, 'r')
         reader = csv.reader(f)
         next(reader)  # ヘッダを読み飛ばす
 
