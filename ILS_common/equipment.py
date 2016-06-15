@@ -11,11 +11,11 @@ def update_sensors(light_list, sensor_list):
 
 
 class Light:
-    ID = 1
+    id = 1
 
     def __init__(self):
-        self.ID = Light.ID
-        Light.ID += 1
+        self.id = Light.id
+        Light.id += 1
         self.name = ""
         self.lum_MAX = 0  # 最大光度
         self.lum_MIN = 0   # 最小光度
@@ -36,7 +36,7 @@ class Light:
         self.neighbor = Neighbor()  # 近傍設計
 
     def __str__(self):
-        return "Light" + str(self.ID)
+        return "Light" + str(self.id)
 
     def get_luminosity(self):
         return self.lum_cur
@@ -83,6 +83,17 @@ class Light:
 
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
 
+    def db_calc_current_objective(self):
+        efunc = 0
+
+        for index, s in enumerate(self.sensor_list):
+            if 0.06 * s.get_illuminance() <= (s.get_illuminance() - s.get_target()) or (
+                    s.get_illuminance() - s.get_target() < 0):
+                if float(s.get_influence()[self.id]) >= 0.02:
+                    efunc += float(s.get_influence()[self.id]) * (s.get_illuminance() - s.get_target()) ** 2
+
+        self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
+
     def calc_next_objective(self):
         efunc = 0
 
@@ -93,11 +104,34 @@ class Light:
 
         self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
 
+    def db_calc_next_objective(self):
+        efunc = 0
+
+        for index, s in enumerate(self.sensor_list):
+            if 0.06 * s.get_illuminance() <= (s.get_illuminance() - s.get_target()) or (
+                    s.get_illuminance() - s.get_target() < 0):
+                if float(s.get_influence()[index]) >= 0.02:
+                    efunc += float(s.get_influence()[index]) * (s.get_illuminance() - s.get_target()) ** 2
+
+        self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
+
     def calc_rc(self):
         for index in range(len(self.sensor_list)):
             a, b = calc_regression_coefficient(self.lum_history, self.sensor_history[index])
             self.sensor_rc[index] = a
 
+            if a >= 0.2:
+                self.sensor_rank[index] = 1
+            elif a >= 0.1:
+                self.sensor_rank[index] = 2
+            elif a >= 0.06:
+                self.sensor_rank[index] = 3
+            else:
+                self.sensor_rank[index] = 0
+
+    def db_calc_rank(self):
+        for index in range(len(self.sensor_list)):
+            a = float(self.sensor_list[index].get_influence()[self.id])
             if a >= 0.2:
                 self.sensor_rank[index] = 1
             elif a >= 0.1:
@@ -406,6 +440,9 @@ class Sensor:
 
     def get_illuminance(self):
         return self.ill_cur
+
+    def get_influence(self):
+        return self.influence
 
     def get_before(self):
         return self.ill_bef
