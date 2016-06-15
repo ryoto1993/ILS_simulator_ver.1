@@ -1,7 +1,8 @@
 # coding: UTF-8
 
 import random
-from calculation import *
+
+from ILS_common.calculation import *
 
 
 def update_sensors(light_list, sensor_list):

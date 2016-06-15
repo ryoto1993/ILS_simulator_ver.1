@@ -1,25 +1,26 @@
 # coding: utf-8
 
-from equipment import *
 import csv
+
+from ILS_common.equipment import *
 
 
 class Initial:
     # 照明の数
     light = 12
     # センサの数
-    sensor = 54
+    sensor = 65
     # 使用するセンサのリスト
-    sensorConfig = [[10, 700], [28, 400]]
+    sensorConfig = [[26, 500], [32, 300]]
     # 重み
-    weight = 15
+    weight = 1
     # 初期光度値
     initLum = 200
     # 最小，最大光度値
     minLum = 200
     maxLum = 1200
     # 影響度ファイル
-    coefficient_file = "coefficient4_reverse.csv"
+    coefficient_file = "coefficient/coefficient1_reverse.csv"
 
     # 設定用変数
     lightList = []

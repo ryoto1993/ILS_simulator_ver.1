@@ -1,8 +1,6 @@
 # coding: utf-8
 
-from equipment import *
 from initial import *
-
 
 class AnaRc:
 
@@ -75,7 +73,7 @@ class AnaRc:
         update_sensors(self.lightList, self.useSensorList)
 
         # ここから1ステップ毎の処理を記述
-        for i in range(0, 1000):
+        for i in range(0, 2000):
 
             # ######## センサの変更ルール処理をここで記述！
 
