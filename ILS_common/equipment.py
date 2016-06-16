@@ -94,6 +94,17 @@ class Light:
 
         self.objective_cur = self.power_meter[0].get_power() + self.weight * efunc
 
+    def db_calc_next_objective(self):
+        efunc = 0
+
+        for index, s in enumerate(self.sensor_list):
+            if 0.06 * s.get_illuminance() <= (s.get_illuminance() - s.get_target()) or (
+                            s.get_illuminance() - s.get_target() < 0):
+                if float(s.get_influence()[self.id]) >= 0.02:
+                    efunc += float(s.get_influence()[self.id]) * (s.get_illuminance() - s.get_target()) ** 2
+
+        self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
+
     def calc_next_objective(self):
         efunc = 0
 
@@ -101,17 +112,6 @@ class Light:
             if 0.06 * s.get_illuminance() <= (s.get_illuminance() -s.get_target()) or (s.get_illuminance() - s.get_target() < 0):
                 if self.sensor_rc[index] >= 0.02:
                     efunc += self.sensor_rc[index] * (s.get_illuminance() - s.get_target()) ** 2
-
-        self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
-
-    def db_calc_next_objective(self):
-        efunc = 0
-
-        for index, s in enumerate(self.sensor_list):
-            if 0.06 * s.get_illuminance() <= (s.get_illuminance() - s.get_target()) or (
-                    s.get_illuminance() - s.get_target() < 0):
-                if float(s.get_influence()[index+1]) >= 0.02:
-                    efunc += float(s.get_influence()[index+1]) * (s.get_illuminance() - s.get_target()) ** 2
 
         self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
 

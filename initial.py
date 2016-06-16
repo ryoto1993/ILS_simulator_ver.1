@@ -11,18 +11,18 @@ class Initial:
     # 照明の数
     light = 12
     # センサの数
-    sensor = 65
+    sensor = 54
     # 使用するセンサのリスト
-    sensorConfig = [[41, 500], [23, 700]]
+    sensorConfig = [[29, 500], [10, 700]]
     # 重み
-    weight = 100000000
+    weight = 100
     # 初期光度値
     initLum = 200
     # 最小，最大光度値
     minLum = 200
     maxLum = 1200
     # 影響度ファイル
-    coefficient_file = "coefficient/coefficient1_reverse.csv"
+    coefficient_file = "coefficient/coefficient4_reverse.csv"
 
     # 設定用変数
     lightList = []
