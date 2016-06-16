@@ -7,7 +7,7 @@ from ILS_common.equipment import *
 
 class Initial:
     # 実験名
-    sim_name = "直下-直下,60cm"
+    sim_name = "那須"
     # 照明の数
     light = 12
     # センサの数
@@ -18,7 +18,7 @@ class Initial:
     weight = 1
     # 初期光度値
     initLum = 200
-    # 最小，最大光度値a
+    # 最小，最大光度値
     minLum = 200
     maxLum = 1200
     # 影響度ファイル
