@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import os
+import datetime
 from initial import *
 
 
@@ -11,7 +13,16 @@ class AnaDb:
         self.powerMeter = Initial.powerMeter[0]  # 電力計
 
         # csvの作成
-        self.save_csv = open('log/ANA_DB/log.csv', 'w', newline='')
+        time = datetime.datetime.today()
+        year = str(time.year)
+        month = str(time.month).zfill(2)
+        date = str(time.day).zfill(2)
+        hour = str(time.hour).zfill(2)
+        minute = str(time.minute).zfill(2)
+        file_dir = "log/ANA_DB/" + year + month + date + "_" + hour + minute + "_" + Initial.sim_name
+        os.mkdir(file_dir)
+        log_dir = file_dir + "/log.csv"
+        self.save_csv = open(log_dir, 'w', newline='')
         self.csv_writer = csv.writer(self.save_csv)
         self.csv_list = ["Step", "Power"]
         for s in self.useSensorList:
