@@ -22,9 +22,17 @@ class AnaDb:
         file_dir = "log/" + year + month + date + "_" + hour + minute + "_" + "DB_" + Initial.sim_name
         os.mkdir(file_dir)
         log_dir = file_dir + "/log.csv"
+        ill_log_dir = file_dir + "/ill_log.csv"
+        lum_log_dir = file_dir + "/lum_log.csv"
         self.save_csv = open(log_dir, 'w', newline='')
+        self.ill_csv = open(ill_log_dir, 'w', newline='')
+        self.lum_csv = open(lum_log_dir, 'w', newline='')
         self.csv_writer = csv.writer(self.save_csv)
+        self.ill_writer = csv.writer(self.ill_csv)
+        self.lum_writer = csv.writer(self.lum_csv)
         self.csv_list = ["Step", "Power"]
+        self.lum_list = []
+        self.ill_list = []
         for s in self.useSensorList:
             self.csv_list.append(s)
         for l in self.lightList:
@@ -43,13 +51,19 @@ class AnaDb:
         for i in range(0, 2000):
             # CSV出力
             self.csv_list.clear()
+            self.lum_list.clear()
+            self.ill_list.clear()
             self.csv_list.append(i)
             self.csv_list.append(str(int(self.powerMeter.get_power())))
             for s in self.useSensorList:
                 self.csv_list.append(str(int(s.get_illuminance())))
+                self.ill_list.append(str(int(s.get_illuminance())))
             for l in self.lightList:
                 self.csv_list.append(str(int(l.get_luminosity())))
+                self.lum_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
+            self.ill_writer.writerow(self.ill_list)
+            self.lum_writer.writerow(self.lum_list)
 
 
             # 現在目的関数計算
@@ -77,7 +91,7 @@ class AnaDb:
 
             # 次の目的関数計算
             for l in self.lightList:
-                l.calc_next_objective()
+                l.db_calc_next_objective()
             # ロールバック
             for l in self.lightList:
                 if l.is_rollback():
@@ -89,3 +103,5 @@ class AnaDb:
 
         # ファイルクローズ
         self.save_csv.close()
+        self.ill_csv.close()
+        self.lum_csv.close()

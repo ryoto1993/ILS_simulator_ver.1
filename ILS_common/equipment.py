@@ -24,7 +24,7 @@ class Light:
         self.objective_cur = 0  # 現在の目的関数値
         self.objective_next = 0  # 次のステップの目的関数値
         self.weight = 0    # 評価値の重み
-        self.shc_weight = 15  # SHCの評価値の重み
+        # self.shc_weight = 15  # SHCの評価値の重み
 
         self.sensor_list = []   # センサリスト
         self.power_meter = []  # 電力計
@@ -110,8 +110,8 @@ class Light:
         for index, s in enumerate(self.sensor_list):
             if 0.06 * s.get_illuminance() <= (s.get_illuminance() - s.get_target()) or (
                     s.get_illuminance() - s.get_target() < 0):
-                if float(s.get_influence()[index]) >= 0.02:
-                    efunc += float(s.get_influence()[index]) * (s.get_illuminance() - s.get_target()) ** 2
+                if float(s.get_influence()[index+1]) >= 0.02:
+                    efunc += float(s.get_influence()[index+1]) * (s.get_illuminance() - s.get_target()) ** 2
 
         self.objective_next = self.power_meter[0].get_power() + self.weight * efunc
 
