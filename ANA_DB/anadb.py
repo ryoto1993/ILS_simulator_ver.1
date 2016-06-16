@@ -19,7 +19,7 @@ class AnaDb:
         date = str(time.day).zfill(2)
         hour = str(time.hour).zfill(2)
         minute = str(time.minute).zfill(2)
-        file_dir = "log/ANA_DB/" + year + month + date + "_" + hour + minute + "_" + Initial.sim_name
+        file_dir = "log/" + year + month + date + "_" + hour + minute + "_" + "DB_" + Initial.sim_name
         os.mkdir(file_dir)
         log_dir = file_dir + "/log.csv"
         self.save_csv = open(log_dir, 'w', newline='')

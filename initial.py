@@ -7,7 +7,7 @@ from ILS_common.equipment import *
 
 class Initial:
     # 実験名
-    sim_name = "nametest"
+    sim_name = "直下-直下,60cm"
     # 照明の数
     light = 12
     # センサの数
