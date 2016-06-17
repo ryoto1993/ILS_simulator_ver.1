@@ -15,7 +15,7 @@ class Initial:
     # 使用するセンサのリスト
     sensorConfig = [[29, 500], [10, 700]]
     # 重み
-    weight = 100
+    weight = 15
     # 初期光度値
     initLum = 200
     # 最小，最大光度値
