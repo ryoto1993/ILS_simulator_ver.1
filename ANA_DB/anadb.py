@@ -65,7 +65,6 @@ class AnaDb:
             self.ill_writer.writerow(self.ill_list)
             self.lum_writer.writerow(self.lum_list)
 
-
             # 現在目的関数計算
             for l in self.lightList:
                 l.db_calc_current_objective()
@@ -77,17 +76,22 @@ class AnaDb:
                 l.set_random_luminosity()
             update_sensors(self.lightList, self.useSensorList)
             for l in self.lightList:
-                l.shc_append_history()
+                l.db_append_history()
 
             # CSV
             self.csv_list.clear()
-            self.csv_list.append(i)
+            self.lum_list.clear()
+            self.ill_list.clear()
             self.csv_list.append(str(int(self.powerMeter.get_power())))
             for s in self.useSensorList:
                 self.csv_list.append(str(int(s.get_illuminance())))
+                self.ill_list.append(str(int(s.get_illuminance())))
             for l in self.lightList:
                 self.csv_list.append(str(int(l.get_luminosity())))
+                self.lum_list.append(str(int(l.get_luminosity())))
             self.csv_writer.writerow(self.csv_list)
+            self.ill_writer.writerow(self.ill_list)
+            self.lum_writer.writerow(self.lum_list)
 
             # 次の目的関数計算
             for l in self.lightList:
@@ -99,7 +103,7 @@ class AnaDb:
             update_sensors(self.lightList, self.useSensorList)
             for l in self.lightList:
                 if l.is_rollback():
-                    l.append_history()
+                    l.db_append_history()
 
         # ファイルクローズ
         self.save_csv.close()

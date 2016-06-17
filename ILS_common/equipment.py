@@ -145,9 +145,6 @@ class Light:
         self.neighbor.set_neighbor_design(self.sensor_list, self.sensor_rank)
 
     def set_random_luminosity(self):
-        next_lum = self.lum_cur
-
-        # next_lum += self.lum_MAX * random.randint(self.neighbor.get_lower(), self.neighbor.get_upper()) / 100
         next_lum = self.lum_cur * (100 + random.randint(self.neighbor.get_lower(), self.neighbor.get_upper())) / 100
         if next_lum < self.lum_MIN:
             next_lum = self.lum_MIN
@@ -171,14 +168,17 @@ class Light:
         self.lum_cur = self.lum_bef
 
     def is_rollback(self):
-        # print(self.objective_cur)
-        # print(self.objective_next)
         if self.objective_cur < self.objective_next:
             return True
         else:
             return False
 
     def shc_append_history(self):
+        self.lum_history.append(self.lum_cur - self.lum_bef)
+        for index, s in enumerate(self.sensor_list):
+            self.sensor_history[index].append(s.get_illuminance() - s.get_before())
+
+    def db_append_history(self):
         self.lum_history.append(self.lum_cur - self.lum_bef)
         for index, s in enumerate(self.sensor_list):
             self.sensor_history[index].append(s.get_illuminance() - s.get_before())
