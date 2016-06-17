@@ -82,6 +82,7 @@ class AnaDb:
             self.csv_list.clear()
             self.lum_list.clear()
             self.ill_list.clear()
+            self.csv_list.append(i)
             self.csv_list.append(str(int(self.powerMeter.get_power())))
             for s in self.useSensorList:
                 self.csv_list.append(str(int(s.get_illuminance())))
